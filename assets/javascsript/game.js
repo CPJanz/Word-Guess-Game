@@ -1,5 +1,5 @@
 const VALIDKEYS = /[a-z]/;
-const WORDBANK = ["baby", "rope"];
+const WORDBANK = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidoran", "Nidorina", "Nidoqueen", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetchd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "MrMime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"];
 const STARTINGLIVES = 10
 
 let game = {
@@ -13,6 +13,10 @@ let game = {
 
     takeInput: function(input) {
         keyPressed = input.key.toLowerCase();
+        // document.getElementById("pokeball").textContent = "";
+        // let newImg = document.createElement("img");
+        // newImg.src = "assets/images/pokeball.png"
+        // document.getElementById("pokeball").appendChild(newImg);
 
         //If the game is not currently running, this starts a new game and eats the keystroke.
         if (!this.gameRunning) {
@@ -45,11 +49,13 @@ let game = {
 
     takeTurn: function(guessedLetter) {
         for (let i = 0; i < this.chosenWord.length; i++) {
-            if (this.chosenWord[i] === guessedLetter) {
+            if (this.chosenWord[i].toLowerCase() === guessedLetter) {
                 this.charactersRevealed++;
+            } else {
+                this.livesLeft--;
             }
         }
-        this.livesLeft--;
+
         this.printInfo();
     },
 

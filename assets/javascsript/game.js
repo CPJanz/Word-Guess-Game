@@ -1,6 +1,6 @@
 const VALIDKEYS = /[a-z]/;
 const WORDBANK = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidoran", "Nidorina", "Nidoqueen", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetchd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "MrMime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"];
-const STARTINGLIVES = 20;
+const STARTINGLIVES = 15;
 
 let game = {
 
@@ -10,19 +10,10 @@ let game = {
     chosenWord: null,
     livesLeft: STARTINGLIVES,
     charactersRevealed: 0,
+    gamesWon: 0,
 
     takeInput: function(input) {
         keyPressed = input.key.toLowerCase();
-        // console.log(document.getElementById("wordText").children);
-        // console.log(document.getElementById("wordText").children.length);
-        // let myelement = document.createElement("span");
-        // myelement.textContent = "t";
-        // document.getElementById("wordText").appendChild(myelement);
-        // document.getElementById("pokeball").textContent = "";
-        // let newImg = document.createElement("img");
-        // newImg.src = "assets/images/pokeball.png"
-        // document.getElementById("pokeball").appendChild(newImg);
-
         //If the game is not currently running, this starts a new game and eats the keystroke.
         if (!this.gameRunning) {
             this.startGame();
@@ -37,6 +28,7 @@ let game = {
         }
     },
 
+    // Resets the game state after a game is won or lost.
     reset: function() {
         this.guessedLetters = [];
         this.chosenWord = null;
@@ -51,6 +43,7 @@ let game = {
 
     },
 
+    // Starts a new game 
     startGame: function() {
         console.log("Game Starting");
         document.getElementById("subtitle-container").style.visibility = "hidden";
@@ -61,6 +54,8 @@ let game = {
         this.setupBoard();
     },
 
+    // Processes a valid keystroke, each time the letter is found in the chosen word, it is revealed on the gameboard.
+    // If there is no match, the letter is added to the list of incorrect characters and lives are decremented
     takeTurn: function(guessedLetter) {
         let letterMatched = false;
         for (let i = 0; i < this.chosenWord.length; i++) {
@@ -79,43 +74,36 @@ let game = {
             document.getElementById("wrong-letters-text").innerText += "   " + guessedLetter;
 
         };
-        // this.printInfo();
     },
 
+    // Checks game state for win or loss situations. If either is found, moves the game to game over.
     checkEndGame: function() {
+        // Loss state
         if (this.livesLeft <= 0) {
+            // Display You lost message
             document.getElementById("subtitle-text").innerHTML = "You Lost!";
             document.getElementById("subtitle-text").style.color = "red";
             document.getElementById("subtitle-container").style.visibility = "visible";
             this.gameRunning = false;
         }
-
+        // Win state
         if (this.charactersRevealed === this.chosenWord.length) {
             document.getElementById("subtitle-text").innerHTML = "You Won!";
             document.getElementById("subtitle-text").style.color = "green";
             document.getElementById("subtitle-container").style.visibility = "visible";
+            this.gamesWon++;
+            document.getElementById("wins-text").innerHTML = this.gamesWon;
             this.gameRunning = false;
         }
     },
 
+    //Constructs the game board by placing a pokeball img for each to be revealed letter.
     setupBoard: function() {
         for (let i = 0; i < this.chosenWord.length; i++) {
             let pokeball = document.createElement("img");
             pokeball.setAttribute("src", "assets/images/pokeball.png");
             document.getElementById("boardText").appendChild(pokeball);
         }
-    },
-
-    //TEMPORARY DEBUG METHOD!!!! DELETE BEFORE SUBMITTING
-    printInfo: function() {
-        console.log("----------------");
-        console.log("lives left:", this.livesLeft);
-        console.log("Chosen Word:", this.chosenWord);
-        console.log("Chosen Word Length:", this.chosenWord.length);
-        console.log("Guessed Letters:", this.guessedLetters);
-        console.log("Letters Revealed:", this.charactersRevealed);
-        console.log("Game Running:", this.gameRunning);
-        console.log("+++++++++++++++++");
     }
 }
 

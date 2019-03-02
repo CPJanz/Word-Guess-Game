@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Who's That Pokemon?</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
@@ -31,12 +31,22 @@
                 </div>
             </div>
         </div>
-        <div class="row pb-3" id="lives-and-letters-row">
+        <div class="row" id="lives-and-letters-row">
             <div class="col-9" id="lettersContainer">
                 <h4>Wrong Guesses: <span id="wrong-letters-text"></span></h4>
             </div>
-            <div class="col-2" id="livesContainer">
-                <h4><span id="lives-text"></span> :lives Left</h4>
+            <div class="col-3" id="lives-container">
+                <div class="row">
+                    <div class="col">
+                        <h4><span id="lives-text"></span> :Lives Left</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h4><span id="wins-text">0</span> :Games Won</h4>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

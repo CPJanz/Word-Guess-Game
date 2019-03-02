@@ -12,36 +12,31 @@
 </head>
 
 <body>
-    <div class="container border">
+
+    <div class="container">
         <div class="row">
-            <div class="col" id="titleContainer">
+            <div class="col py-1" id="titleContainer">
                 <h1 id="titleText">Who's that Pokemon?</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col" id="subTitleContainer">
-                <h3 id="subTitleText">Press any key to start playing.</h3>
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col pt-2" id="subtitle-container">
+                    <h3 id="subtitle-text">Press any key to start playing.</h3>
+                </div>
+            </div>
+            <div class="row pt-5">
+                <div class="col pt-5" id="boardContainer">
+                    <h2 id="boardText"></h2>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col" id="wordContaier">
-                <h2><span>Z</span> <span><img src="assets/images/pokeball.png" /> </span> <span>b</span> <span>a</span> <span>t</span></h2>
+        <div class="row pb-3" id="lives-and-letters-row">
+            <div class="col-9" id="lettersContainer">
+                <h4>Wrong Guesses: <span id="wrong-letters-text"></span></h4>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <h4>Wrong Guesses:</h4>
-            </div>
-            <div class="col" id="lettersContainer">
-                <h4 id="lettersText">a, c, f</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h4>Lives Left:</h4>
-            </div>
-            <div class="col" id="livesContainer">
-                <h4 id="livesText">4</h4>
+            <div class="col-2" id="livesContainer">
+                <h4><span id="lives-text"></span> :lives Left</h4>
             </div>
         </div>
     </div>

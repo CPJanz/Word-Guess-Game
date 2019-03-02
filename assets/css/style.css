@@ -1,10 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 body {
-    background-image: url(../images/background.png);
-    background-size: 100%;
-    background-repeat: no-repeat;
-    height: 600px;
-    width: 1200px;
+    /* background-color: #4c6894; */
+    background-color: #83b1fa;
 }
 
 h1,
@@ -18,6 +15,7 @@ h4 {
 
 h1 {
     font-size: 60px;
+    text-align: center;
 }
 
 h2 {
@@ -25,9 +23,33 @@ h2 {
 }
 
 h3 {
-    font-size: 35px;
+    font-size: 50px;
+    text-align: center;
 }
 
 h4 {
-    font-size: 25px;
+    font-size: 30;
+}
+
+h2>span,
+h2>img {
+    margin: auto 5px;
+}
+
+.jumbotron {
+    background-image: url(../images/background.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    max-width: 1200px;
+    height: 390px;
+    padding-top: 1rem;
+}
+
+#lives-and-letters-row {
+    visibility: hidden;
+}
+
+.container {
+    background-color: #3664ad;
+    border-radius: 10px;
 }

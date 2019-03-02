@@ -1,6 +1,6 @@
 const VALIDKEYS = /[a-z]/;
 const WORDBANK = ["Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidoran", "Nidorina", "Nidoqueen", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetchd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "MrMime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"];
-const STARTINGLIVES = 10
+const STARTINGLIVES = 20;
 
 let game = {
 
@@ -13,6 +13,11 @@ let game = {
 
     takeInput: function(input) {
         keyPressed = input.key.toLowerCase();
+        // console.log(document.getElementById("wordText").children);
+        // console.log(document.getElementById("wordText").children.length);
+        // let myelement = document.createElement("span");
+        // myelement.textContent = "t";
+        // document.getElementById("wordText").appendChild(myelement);
         // document.getElementById("pokeball").textContent = "";
         // let newImg = document.createElement("img");
         // newImg.src = "assets/images/pokeball.png"
@@ -37,37 +42,67 @@ let game = {
         this.chosenWord = null;
         this.livesLeft = STARTINGLIVES;
         this.charactersRevealed = 0;
+        document.getElementById("boardText").remove();
+        let newBoard = document.createElement("h2");
+        newBoard.setAttribute("id", "boardText");
+        document.getElementById("boardContainer").appendChild(newBoard);
+        document.getElementById("wrong-letters-text").innerText = "";
+        document.getElementById("lives-text").innerText = this.livesLeft;
+
     },
 
     startGame: function() {
         console.log("Game Starting");
-
+        document.getElementById("subtitle-container").style.visibility = "hidden";
+        document.getElementById("lives-and-letters-row").style.visibility = "visible";
         this.reset();
         this.gameRunning = true;
         this.chosenWord = WORDBANK[Math.floor(Math.random() * WORDBANK.length)];
+        this.setupBoard();
     },
 
     takeTurn: function(guessedLetter) {
+        let letterMatched = false;
         for (let i = 0; i < this.chosenWord.length; i++) {
             if (this.chosenWord[i].toLowerCase() === guessedLetter) {
+                let characterSpan = document.createElement("span");
+                const boardText = document.getElementById("boardText");
+                characterSpan.innerText = this.chosenWord[i];
+                boardText.replaceChild(characterSpan, boardText.children[i]);
                 this.charactersRevealed++;
-            } else {
-                this.livesLeft--;
+                letterMatched = true;
             }
         }
+        if (!letterMatched) {
+            this.livesLeft--;
+            document.getElementById("lives-text").innerText = this.livesLeft;
+            document.getElementById("wrong-letters-text").innerText += "   " + guessedLetter;
 
-        this.printInfo();
+        };
+        // this.printInfo();
     },
 
     checkEndGame: function() {
         if (this.livesLeft <= 0) {
-            console.log("You Lost!");
+            document.getElementById("subtitle-text").innerHTML = "You Lost!";
+            document.getElementById("subtitle-text").style.color = "red";
+            document.getElementById("subtitle-container").style.visibility = "visible";
             this.gameRunning = false;
         }
 
         if (this.charactersRevealed === this.chosenWord.length) {
-            console.log("You Won!");
+            document.getElementById("subtitle-text").innerHTML = "You Won!";
+            document.getElementById("subtitle-text").style.color = "green";
+            document.getElementById("subtitle-container").style.visibility = "visible";
             this.gameRunning = false;
+        }
+    },
+
+    setupBoard: function() {
+        for (let i = 0; i < this.chosenWord.length; i++) {
+            let pokeball = document.createElement("img");
+            pokeball.setAttribute("src", "assets/images/pokeball.png");
+            document.getElementById("boardText").appendChild(pokeball);
         }
     },
 
@@ -76,6 +111,7 @@ let game = {
         console.log("----------------");
         console.log("lives left:", this.livesLeft);
         console.log("Chosen Word:", this.chosenWord);
+        console.log("Chosen Word Length:", this.chosenWord.length);
         console.log("Guessed Letters:", this.guessedLetters);
         console.log("Letters Revealed:", this.charactersRevealed);
         console.log("Game Running:", this.gameRunning);
